@@ -5,13 +5,13 @@ const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 
 const User = require("../models/User")
+//const auth = require('../middleware/auth');
 const Post = require("../models/Post");
 users.use(cors())
 
 process.env.SECRET_KEY = 'secret'
 
-//LIST USERS
-//Get Task list
+//GET LIST OF ALL USERS
 users.get("/list", (req, res) => {
     User.findAll()
         .then(users => {
@@ -23,7 +23,7 @@ users.get("/list", (req, res) => {
 })
 
 //GET ONE USER
-users.get('/details/:id',(req, res) => {
+users.get('/details/:id', (req, res) => {
     User.findOne({
         where: {
             id: req.params.id
@@ -37,9 +37,18 @@ users.get('/details/:id',(req, res) => {
         })
 })
 
-//GET ONE USER
-users.put('/update/:id',(req, res) => {
+//Update ONE USER
+users.put('/update/:id', (req, res) => {
   
+
+    //old password = req.body.old passord 
+    // new passord = req.body.new passord
+    
+    // if (old = new) {
+        // req.body.password = new passord 
+    //}
+    
+
     const userTO = req.body
     User.findOne({
         where: {
@@ -61,7 +70,7 @@ users.put('/update/:id',(req, res) => {
 
 
 //REGISTER
-users.post('/register',(req, res) => {
+users.post('/register',  (req, res) => {
     const today = new Date()
     const userData = {
         name: req.body.name,
@@ -97,7 +106,7 @@ users.post('/register',(req, res) => {
         })
 })
 
-//Login
+//LOGIN
 users.post('/login', (req, res) => {
     User.findOne({
         where: {
@@ -121,6 +130,7 @@ users.post('/login', (req, res) => {
         })
 })
 
+//DELETE ONE USER
 users.delete('/:userId', async (req,res)=>{
 const id = req.params.userId
 

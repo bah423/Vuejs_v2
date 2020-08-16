@@ -54,6 +54,8 @@ export default {
 
 </script>
 
-<style lang="stylus" scoped>
-
+<style  scoped>
+  form{
+   margin-top: 2%;
+ }
 </style>

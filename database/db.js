@@ -11,7 +11,7 @@ const sequelize = new Sequelize ("db_groupomania", "root", "224root" , {
     }
 })
 
-sequelize.sync();
+sequelize.sync({alter: true,force: true});
 db.sequelize = sequelize
 
 module.exports = db

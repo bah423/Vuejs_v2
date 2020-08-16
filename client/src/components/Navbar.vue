@@ -5,11 +5,10 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-      
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li v-if="token  != null ">
-               <router-link class="nav-link" to="/posts">Publication</router-link>
+               <router-link class="nav-link" to="/posts">Publications</router-link>
            </li>
        <li v-if="token  != null ">
                <router-link class="nav-link" to="/post/add">Ajouter une publication</router-link>
@@ -19,7 +18,7 @@
            </li>
 
           <li v-if="token  != null ">
-               <a class="nav-link" @click="logOut()">Déconnexion</a>
+            <a class="nav-link" to="/login" @click="logOut()">Déconnexion</a>
            </li>
            
 

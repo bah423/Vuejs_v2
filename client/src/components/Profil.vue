@@ -2,15 +2,15 @@
 <div class="container">
   
   
-    Nom : {{profil.name}}
+    <b>Nom :</b> {{profil.name}}
     <tr/>
-    Email : {{profil.email}}
+   <b> Email :</b> {{profil.email}}
     <tr/>
-    Total des publications publiées : {{totalPost}}
+    <b>Total des publications publiées :</b> {{totalPost}}
     <tr/>
-    <router-link class="nav-link" to="/profil/update">Modifier mon profil</router-link>
+    <router-link class="nav-link" to="/profil/update"> <b>Modifier mon profil</b></router-link>
 
-    <a type="button" href="javascript:;" v-on:click="DeleteUser(profil.id)" >Supprimer mon compte </a>
+    <a type="button" href="javascript:;" v-on:click="DeleteUser(profil.id)" ><b>Supprimer mon compte</b> </a>
 </div>
 </template>
 <script>
@@ -71,11 +71,8 @@ export default {
             this.totalPost= res.data.length;
         }).catch(err => {
             console.log(err)
-        })
-         
+        })   
 }
-
-
 
 }
         

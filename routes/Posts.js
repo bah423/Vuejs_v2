@@ -3,9 +3,7 @@ const multer = require("multer")
 const posts = express.Router()
 const cors = require("cors")
 const path = require('path')
-/*const upload = multer({
-    dest: './uploads/'
-})*/
+
 var fileUploadName;
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -20,13 +18,16 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 const Post = require("../models/Post")
 const User = require("../models/User")
+const Media = require("../models/media")
 posts.use(cors())
 
 // GET ALL POST
 posts.get('/list', (req, res, next) => {
-    User.hasMany(Post, {foreignKey: 'user_id'})
-    Post.belongsTo(User, {foreignKey: 'user_id'})
-    Post.findAll({ where: {}, include: [User]})
+
+
+
+    
+    Post.findAll({ where: {}, include: [User,Media]})
         .then(posts => {
             res.json(posts)
         })
@@ -47,31 +48,49 @@ posts.get('/users/:id', (req, res, next) => {
 
 // CREATE POST
 posts.post('/create',upload.single('file'), (req, res, next) => {
-    if (!req.body.label || !req.body.description || !req.body.user_id) {
+    if (!req.body.titre || !req.body.content || !req.body.user_id) {
         res.status(400)
         res.json({
             error: 'Bad Data'
         })
     } else {
-        var label = req.body.label;
-        var slug = label.replace(/\s/g, "-");
-        var pathing='';
+        var titre = req.body.titre;
+        var slug = titre.replace(/\s/g, "-");
+        var path='';
         if(req.file){
-            pathing = req.file.filename;
+            path = req.file.fieldname;
         }
+        
+                   
+        let media = {
+            name : req.file.originalname,
+            path: req.file.path,
+            type: "image"
+        }   
+        Media.create(media).then((result)=>{
 
-        const postData = {
-            label: req.body.label,
-            slug: slug,
-            description: req.body.description,
-            post_type: req.body.post_type,
-            path: pathing,
-            status: 1,
-            user_id: req.body.user_id,
-        }
-        Post.create(postData)
-            .then(() => {
-                res.send('POST Added!')
+                console.log("TAGLOG"+result.id)
+            const postData = {
+               titre: req.body.titre,
+                slug: slug,
+                content: req.body.content,
+                status: 1,
+                user_id: req.body.user_id,
+                media_id: result.id
+            }
+            Post.create(postData)
+                .then((post) => {
+    
+          
+                res.status(200).json("POST ADDED!")
+        })
+       
+    
+
+        .catch((error)=>console.log(error))
+
+
+
             })
             .catch(err => {
                 res.send('error: ' + err)
@@ -134,18 +153,18 @@ posts.get('/:id', (req, res, next) => {
 
 // Update POST
 posts.put('/update/:id', (req, res, next) => {
-    if (!req.body.label || !req.body.description || !req.body.path || !req.body.user_id) {
+    if (!req.body.titre || !req.body.content || !req.body.path || !req.body.user_id) {
         res.status(400)
         res.json({
             error: 'Bad Data'
         })
     } else {
-        var label = req.body.label;
-        var slug = label.replace(/\s/g, "-");
+        var titre = req.body.titre;
+        var slug = titre.replace(/\s/g, "-");
         const udpateData = {
-            label: req.body.label,
+            titre: req.body.titre,
             slug: slug,
-            description: req.body.description,
+            content: req.body.content,
             post_type: req.body.post_type,
             path: req.body.path,
             status: 1,

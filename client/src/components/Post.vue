@@ -45,7 +45,7 @@ export default {
 
     }),
     mounted(){
-        this.post_id = this.$route.params.id; 
+      this.post_id = this.$route.params.id; 
       this.getPostInfo(this.post_id);
       this.getComments(this.post_id);
     },

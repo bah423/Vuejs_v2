@@ -4,10 +4,10 @@
   
     <ul>
         <li v-for="post in posts" :key="post.id" @click="showPostDelails(post.id)">
-        <img style="height:200px; width:200px" :src="'http://localhost:3000/images/'+ post.path">
+        <img style="height:200px; width:200px" :src="'http://localhost:3000/images/'+ post">
        <tr/>
-        <b>Label:</b>  {{post.label}} <br>
-        <b>description : </b> {{post.description}}
+        <b>Titre:</b>  {{post.titre}} <br>
+        <b>Contenu : </b> {{post.content}}
           <tr/>
         <b> publie par : </b> {{post.user.name}} à {{changeDateFormat(post.created_at)}}
         </li> 
@@ -49,7 +49,7 @@ export default {
         this.$router.push({name: 'postDetails', params: {id: id}})
      },
      changeDateFormat(date){
-            return new Date(date).toLocaleString();
+        return new Date(date).toLocaleString();
      }
      
 }

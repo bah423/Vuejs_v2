@@ -23,7 +23,7 @@ comments.get('/list', (req, res, next) => {
 
 // ADD COMMENT
 comments.post('/add', (req, res, next) => {
-    if (!req.body.user_id || !req.body.post_id || !req.body.comments) {
+    if (!req.body.user_id || !req.body.post_id || !req.body.contenu) {
         res.status(400)
         res.json({
             error: 'Bad Data'
@@ -32,7 +32,7 @@ comments.post('/add', (req, res, next) => {
         const commentData = {
             user_id: req.body.user_id,
             post_id: req.body.post_id,
-            comments: req.body.comments,
+            contenu: req.body.contenu,
             status: 1
         }
 

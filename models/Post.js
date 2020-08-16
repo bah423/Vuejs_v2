@@ -1,6 +1,8 @@
 const Sequelise = require("sequelize")
 const db = require ("../database/db.js")
 const User = require("./User")
+const Media = require ("./media")
+const Comment = require("./Comment")
 
 const Post = db.sequelize.define(
     "post",
@@ -10,25 +12,22 @@ const Post = db.sequelize.define(
             primaryKey: true,
             autoIncrement: true
         },
-        label: {
+        titre: {
             type: Sequelise.STRING
         },
         slug: {
             type: Sequelise.STRING
         },
-        description: {
+        content: {
             type: Sequelise.TEXT
-        },
-        post_type: {
-            type: Sequelise.INTEGER
-        },
-        path: {
-            type: Sequelise.STRING
         },
         status: {
             type: Sequelise.INTEGER
         },
         user_id: {
+            type: Sequelise.INTEGER
+        },
+        media_id: {
             type: Sequelise.INTEGER
         },
         created_at: {
@@ -46,8 +45,8 @@ const Post = db.sequelize.define(
     },
 
 )
-
-//User.hasMany(Post)
-//Post.belongsTo(User)
+User.hasMany(Post, {foreignKey: 'user_id'})
+Post.belongsTo(User, {foreignKey: 'user_id'})
+Post.belongsTo(Media, {foreignKey: 'media_id'})
 
 module.exports = Post

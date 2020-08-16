@@ -1,7 +1,8 @@
 const Sequelise = require("sequelize")
 const db = require ("../database/db.js")
-
-module.exports = db.sequelize.define(
+const Post = require("./Post")
+const User = require("./User")
+const Comment = db.sequelize.define(
     "comment",
     {
         id: {
@@ -15,7 +16,7 @@ module.exports = db.sequelize.define(
         post_id: {
             type: Sequelise.INTEGER
         },
-        comments: {
+        contenu: {
             type: Sequelise.TEXT
         },
         status: {
@@ -35,3 +36,9 @@ module.exports = db.sequelize.define(
         timestamps: false
     }
 )
+
+Comment.belongsTo(User, {foreignKey: 'user_id'})
+//Comment.belongsTo(Post, {foreignKey: 'post_id'})
+
+
+module.exports = Comment
