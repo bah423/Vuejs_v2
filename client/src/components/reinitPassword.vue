@@ -2,6 +2,7 @@
     <div class="container">
 
         <form v-on:submit.prevent="reinit">
+        <h3>Vous procedez à la réinitialisation de votre mot de passe</h3>
             <div class="form-group">
               <label for="exampleInputEmail1">Pour recevoir un lien de reinitialisation du mot de passs, entrez votre mail</label>
               <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="email">
@@ -49,6 +50,11 @@ form{
 }
 label{
     font-size: 1.5em
+}
+h3{
+    background-color: black;
+    color: #0aaa82;
+    text-align: center
 }
 
 </style>

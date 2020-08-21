@@ -8,7 +8,7 @@
         <b>titre:</b>  {{post.titre}} <br>
         <b>contenu : </b> {{post.content}}
           <tr/>
-        <b> publie par : </b> {{post.user.name}} à {{changeDateFormat(post.created_at)}}
+        <b> publie par : </b> {{post.user.name}} à {{changeDateFormat(post.created_at)}}<br>
         <button v-if="post.user.id==userId" type="button" @click="deletePost(post.id)">supprimer un post</button>
         <button v-if="post.user.id==userId" type="button" @click="goToUpdatePost()">modifier un post</button>
 
@@ -17,14 +17,14 @@
     </ul>
 
    <ul>
-        <li v-for="com in comments" :key="com.id">
-       {{com.user.name}} a commenté  : {{changeDateFormat(com.created_at)}} <tr/>
+      <li v-for="com in comments" :key="com.id">
+       <b>{{com.user.name}}</b> a commenté  : {{changeDateFormat(com.created_at)}} <tr/>
        <b>contenu : </b> {{com.contenu}}<br>
        
     <input type="text" placeholder="comment" id="ex"  style="width:500px" v-model="com.contenu">
 
-       
-    <button v-if="com.user.id==userId" type="button" @click="deleteComment(com.id)">supprimer commentaire</button>
+      <br> 
+    <button  v-if="com.user.id==userId" type="button" @click="deleteComment(com.id)">supprimer commentaire</button>
 
     
     <button v-if="com.user.id==userId" type="button" @click="updateComment(com.id,com.contenu)">modifier commentaire</button>
@@ -32,7 +32,7 @@
         </li>
     </ul>
 
-    <input type="text" placeholder="comment" id="ex"  style="width:500px" v-model="comment.contenu">
+    <input type="text" placeholder="comment" id="ex"  style="width:500px" v-model="comment.contenu"><br>
     <button type="button" @click="addComment">Ajouter un commentaire</button>
 
 </div>
@@ -187,4 +187,9 @@ export default {
         list-style: none;
         margin-top:3%
     }
-</style>>
+    button{
+        margin-right: 2%;
+        margin-top: 1%
+    }
+
+</style>

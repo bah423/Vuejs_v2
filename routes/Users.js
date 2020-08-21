@@ -160,6 +160,29 @@ users.post('/login', (req, res) => {
         })
 })
 
+//Reinitialisation de mot de passe
+users.post('/reinitPassword', (req, res) => {
+    db.user.findOne({
+        where: {
+            email: req.body.email
+        }
+    })
+        .then(user => {
+            if (user) {
+                if (bcrypt.compareSync(req.body.password, user.password)) {
+                    let payload = { id: user.id };
+                    let token = authenticate.getToken(payload)
+                    res.status(200).json({token:token,id:user.id})
+                }
+            } else {
+                res.status(400).json({ error: 'User does not exist' })
+            }
+        })
+        .catch(err => {
+            res.status(400).json({ error: err })
+        })
+})
+
 users.delete('/:userId',authenticate.verifyUser, async (req,res)=>{
 const id = req.params.userId
 

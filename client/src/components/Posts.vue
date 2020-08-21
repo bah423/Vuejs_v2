@@ -6,10 +6,10 @@
         <li v-for="post in posts" :key="post.id" >
         <img @click="showPostDelails(post.id)" style="height:200px; width:200px" :src="'http://localhost:3000/'+ post.media.path">
        <tr/>
-        <b>Label:</b>  {{post.titre}} <br>
-        <b>description : </b> {{post.content}}
+        <b>Titre:</b>  {{post.titre}} <br>
+        <b>Contenu : </b> {{post.content}}
           <tr/>
-        <b> publie par : </b> {{post.user.name}} à {{changeDateFormat(post.created_at)}}
+        <b> publie par : </b> {{post.user.name}} le {{changeDateFormat(post.created_at)}}
 
         </li> 
         
