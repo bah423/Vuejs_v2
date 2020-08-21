@@ -1,16 +1,17 @@
 <template>
 <div class="container">
-  
-  
-    <b>Nom :</b> {{profil.name}}
+  <div class="profil">
+    Nom : {{profil.name}}
     <tr/>
-   <b> Email :</b> {{profil.email}}
+    Email : {{profil.email}}
     <tr/>
-    <b>Total des publications publiées :</b> {{totalPost}}
+    Total des publications publiées : {{totalPost}}
     <tr/>
-    <router-link class="nav-link" to="/profil/update"> <b>Modifier mon profil</b></router-link>
+    <router-link class="nav-link" to="/profil/update">Modifier mon profil</router-link>
+    <router-link class="nav-link" to="/profil/updatePassword">Voulez-vous modifier votre mot de passe ?</router-link>
 
-    <a type="button" href="javascript:;" v-on:click="DeleteUser(profil.id)" ><b>Supprimer mon compte</b> </a>
+    <a type="button" href="javascript:;" v-on:click="DeleteUser(profil.id)" >Supprimer mon compte </a>
+  </div>
 </div>
 </template>
 <script>
@@ -22,10 +23,12 @@ export default {
         profil:{
             name:""
         },
-        totalPost: 0
+        totalPost: 0,
+        token: ""
     }),
 
-   created(){
+   mounted(){
+        this.token = localStorage.getItem("token")
 
         this.getProfil();
         this.getAllPost();
@@ -36,10 +39,12 @@ export default {
     methods: {
 
         getProfil(){
+       
         let user_id = localStorage.getItem("user_id")     
-        axios.get("http://localhost:3000/users/details/"+user_id).then(res => { 
-         this.profil= res.data;
-         console.log(this.profil)
+        axios.get("http://localhost:3000/users/Users/"+user_id,this.getHeaders( this.token)).then(res => { 
+     
+
+            this.profil= res.data;
         }).catch(err => {
             console.log(err)
         })
@@ -52,7 +57,7 @@ export default {
 
    if(confirm("Do you really want to delete?")){
 
-                axios.delete('http://localhost:3000/users/'+id)
+                axios.delete('http://localhost:3000/users/'+id,this.getHeaders(this.token))
                 .then(() => {
                     alert("votre compte a été supprimé avec success")
                     localStorage.clear()
@@ -66,15 +71,34 @@ export default {
 
         getAllPost(){
         let user_id = localStorage.getItem("user_id")   
-        axios.get("http://localhost:3000/posts/ByUser/"+user_id).then(res => { 
+        axios.get("http://localhost:3000/posts/ByUser/"+user_id,this.getHeaders(this.token)).then(res => { 
+            console.log(res)
 
             this.totalPost= res.data.length;
         }).catch(err => {
             console.log(err)
-        })   
+        })
+         
+},
+ getHeaders(token) {
+
+    const config = {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    }
+    return config
 }
 
+
+
 }
-        
-    };
+};
 </script>
+
+<style scoped>
+    .profil{
+        font-size: 2.5em;
+        margin-top: 3%
+    }
+</style>>

@@ -3,17 +3,14 @@ const users = express.Router()
 const cors = require("cors")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
-
-const User = require("../models/User")
-//const auth = require('../middleware/auth');
-const Post = require("../models/Post");
+var db = require('../models/index');
+const authenticate = require("../authenticate");
 users.use(cors())
 
-process.env.SECRET_KEY = 'secret'
-
-//GET LIST OF ALL USERS
-users.get("/list", (req, res) => {
-    User.findAll()
+//LIST USERS
+//Get Task list
+users.get("/Users",authenticate.verifyUser,(req, res) => {
+    db.user.findAll()
         .then(users => {
             res.json(users)
         })
@@ -22,9 +19,10 @@ users.get("/list", (req, res) => {
         })
 })
 
+
 //GET ONE USER
-users.get('/details/:id', (req, res) => {
-    User.findOne({
+users.get('/Users/:id',authenticate.verifyUser,(req, res) => {
+    db.user.findOne({
         where: {
             id: req.params.id
         }
@@ -37,20 +35,11 @@ users.get('/details/:id', (req, res) => {
         })
 })
 
-//Update ONE USER
-users.put('/update/:id', (req, res) => {
-  
+//update ONE USER
+users.put('/update/:id',authenticate.verifyUser,(req, res) => {
 
-    //old password = req.body.old passord 
-    // new passord = req.body.new passord
-    
-    // if (old = new) {
-        // req.body.password = new passord 
-    //}
-    
-
-    const userTO = req.body
-    User.findOne({
+ const userTO = req.body
+    db.user.findOne({
         where: {
             id: req.params.id
         }
@@ -69,8 +58,50 @@ users.put('/update/:id', (req, res) => {
 })
 
 
+//Update password
+users.put('/updatePassword/:id',authenticate.verifyUser, (req, res) => {
+
+    const data = req.body
+           db.user.findOne({
+           where: {
+               id: req.params.id
+           }
+       })
+       .then(function (user) {
+      // Check if record exists in db
+         if (user) {    
+
+           if( bcrypt.compareSync(data.password, user.password) ){
+            if(data.newPassword == data.confirmPassword){
+                 bcrypt.hash(data.newPassword, 10, (err,hash)=> {  
+           user.update(
+               {password : hash}
+           ) 
+           .then((data) =>{
+               res.status(200).json(data)
+           })
+        } );
+    
+    } else {
+        res.status(400).json({success: false , message: "verify your confirmation password"})
+    }
+        
+}
+        
+        else {
+            res.status(400).json({success: false , message: "verify your password"})
+
+           
+        }
+         } else {
+             res.status(400).json({success: false , message: "verify your password"})
+         }
+       })
+   })
+
+
 //REGISTER
-users.post('/register',  (req, res) => {
+users.post('/register',(req, res) => {
     const today = new Date()
     const userData = {
         name: req.body.name,
@@ -80,7 +111,7 @@ users.post('/register',  (req, res) => {
         created_at: today,
         updated_at: today
     }
-    User.findOne({
+    db.user.findOne({
         where: {
             email: req.body.email
         }
@@ -89,7 +120,7 @@ users.post('/register',  (req, res) => {
             if (!user) {
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
                     userData.password = hash
-                    User.create(userData)
+                    db.user.create(userData)
                         .then(user => {
                             res.json({ status:'ok','mesage':'Registered' })
                         })
@@ -102,13 +133,13 @@ users.post('/register',  (req, res) => {
             }
         })
         .catch(err => {
-            res.send('error: ' + err)
+            res.send('error:: ' + err)
         })
 })
 
-//LOGIN
+//Login
 users.post('/login', (req, res) => {
-    User.findOne({
+    db.user.findOne({
         where: {
             email: req.body.email
         }
@@ -116,10 +147,9 @@ users.post('/login', (req, res) => {
         .then(user => {
             if (user) {
                 if (bcrypt.compareSync(req.body.password, user.password)) {
-                    let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
-                        expiresIn: 1440
-                    })
-                    res.send({token:token,id:user.id})
+                    let payload = { id: user.id };
+                    let token = authenticate.getToken(payload)
+                    res.status(200).json({token:token,id:user.id})
                 }
             } else {
                 res.status(400).json({ error: 'User does not exist' })
@@ -130,24 +160,10 @@ users.post('/login', (req, res) => {
         })
 })
 
-//DELETE ONE USER
-users.delete('/:userId', async (req,res)=>{
+users.delete('/:userId',authenticate.verifyUser, async (req,res)=>{
 const id = req.params.userId
 
-let posts = await Post.findAll({
-    where :{
-        user_id: id
-    }
-})
-const ids = posts.map(elem=>elem.id)
-
-await Post.destroy({
-    where: {
-        id: ids
-    }
-});
-
-User.destroy({
+db.user.destroy({
     where: {
     id:id
     }

@@ -3,8 +3,8 @@ const multer = require("multer")
 const posts = express.Router()
 const cors = require("cors")
 const path = require('path')
+var db = require('../models/index');
 
-var fileUploadName;
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads/images')
@@ -16,18 +16,12 @@ var storage = multer.diskStorage({
 })
 
 var upload = multer({ storage: storage })
-const Post = require("../models/Post")
-const User = require("../models/User")
-const Media = require("../models/media")
 posts.use(cors())
 
 // GET ALL POST
-posts.get('/list', (req, res, next) => {
+posts.get('/Posts', (req, res, next) => {
 
-
-
-    
-    Post.findAll({ where: {}, include: [User,Media]})
+    db.post.findAll({ where: {},include:[db.user,db.media]})
         .then(posts => {
             res.json(posts)
         })
@@ -37,7 +31,7 @@ posts.get('/list', (req, res, next) => {
 })
 
 posts.get('/users/:id', (req, res, next) => {
-    Post.findAll({ where: {user_id: req.params.id}, include: []})
+    db.post.findAll({ where: {user_id: req.params.id}, include: []})
         .then(posts => {
             res.json(posts)
         })
@@ -48,49 +42,34 @@ posts.get('/users/:id', (req, res, next) => {
 
 // CREATE POST
 posts.post('/create',upload.single('file'), (req, res, next) => {
-    if (!req.body.titre || !req.body.content || !req.body.user_id) {
+    if (!req.body.titre || !req.body.content || !req.body.userId) {
         res.status(400)
         res.json({
             error: 'Bad Data'
         })
     } else {
-        var titre = req.body.titre;
-        var slug = titre.replace(/\s/g, "-");
-        var path='';
+        let media = {}
         if(req.file){
-            path = req.file.fieldname;
-        }
         
+             media = {
+                name: req.file.originalname ,
+                path: req.file.path ,
+                type: req.file.mimetype,
                    
-        let media = {
-            name : req.file.originalname,
-            path: req.file.path,
-            type: "image"
-        }   
-        Media.create(media).then((result)=>{
-
-                console.log("TAGLOG"+result.id)
-            const postData = {
-               titre: req.body.titre,
-                slug: slug,
-                content: req.body.content,
-                status: 1,
-                user_id: req.body.user_id,
-                media_id: result.id
             }
-            Post.create(postData)
-                .then((post) => {
-    
-          
-                res.status(200).json("POST ADDED!")
-        })
-       
-    
-
-        .catch((error)=>console.log(error))
-
-
-
+        }
+        const postData = req.body
+        
+        db.post.create(postData)
+            .then((post) => {
+                media.postId = post.id
+                db.media.create(media)
+                .then(() => {
+                    res.send('POST Added!')
+                })
+                .catch(err => {
+                    res.send('error: ' + err)
+                })
             })
             .catch(err => {
                 res.send('error: ' + err)
@@ -99,14 +78,13 @@ posts.post('/create',upload.single('file'), (req, res, next) => {
 })
 
 //SHOW POST DETAILS
-posts.get('/details/:slug', (req, res, next) => {
-    User.hasMany(Post, {foreignKey: 'user_id'})
-    Post.belongsTo(User, {foreignKey: 'user_id'})
-    Post.findOne({
+posts.get('/Posts/:slug', (req, res, next) => {
+    
+    db.post.findOne({
         where: {
             slug: req.params.slug
         },
-        include: [User]
+        include: [db.user]
     })
         .then(post => {
             res.send(post)
@@ -118,27 +96,26 @@ posts.get('/details/:slug', (req, res, next) => {
 
 // Delete POST
 posts.delete('/:id', (req, res, next) => {
-    Post.destroy({
+    db.post.destroy({
         where: {
             id: req.params.id
         }
     })
         .then(() => {
-            res.send('POST deleted!')
+            res.status(200).json('POST deleted!')
         })
         .catch(err => {
-            res.send('error: ' + err)
+            res.status(400).json('error: ' + err)
         })
 })
 
 // getone POST
 posts.get('/:id', (req, res, next) => {
-    User.hasMany(Post, {foreignKey: 'user_id'})
-    Post.belongsTo(User, {foreignKey: 'user_id'})
-    Post.findAll({
+    
+    db.post.findAll({
         where: {
             id: req.params.id
-        } , include : [User]
+        } , include : [db.user,db.media]
         
         
     })
@@ -152,41 +129,63 @@ posts.get('/:id', (req, res, next) => {
 
 
 // Update POST
-posts.put('/update/:id', (req, res, next) => {
-    if (!req.body.titre || !req.body.content || !req.body.path || !req.body.user_id) {
+posts.put('/update/:id',upload.single('file'), (req, res, next) => {
+    const udpateData = req.body
+    
+    if (!req.body.titre || !req.body.content) {
         res.status(400)
         res.json({
             error: 'Bad Data'
         })
     } else {
-        var titre = req.body.titre;
-        var slug = titre.replace(/\s/g, "-");
-        const udpateData = {
-            titre: req.body.titre,
-            slug: slug,
-            content: req.body.content,
-            post_type: req.body.post_type,
-            path: req.body.path,
-            status: 1,
-            user_id: req.body.user_id,
+        let media = {}
+        if(req.file){
+        
+             media = {
+                name: req.file.originalname ,
+                path: req.file.path ,
+                type: req.file.mimetype,
+                   
+            }
         }
-        Post.update(
-            {udpateData},
+        const udpateData = req.body
+        db.post.update(
+            udpateData,
             { where: { id: req.params.id } }
         )
-            .then(() => {
-                res.send('POST Updated!')
+            .then((post) => {
+                if(req.file){
+                media.postId = req.params.id
+                db.media.update(
+                    media,
+                    { where: { id: req.body.idMedia } }
+                )
+                .then(() => {
+                    res.status(200).json('POST Added!')
+                })
+                .catch(err => {
+                    res.status(400).json('error: ' + err)
+                })
+            }else {
+                res.status(200).json('POST Added!')
+            }
             })
-            .error(err => handleError(err))
+            .catch(err => handleError(err))
     }
+
+    
 })
+
+
+
+
 
 
 // GET Comments by UserId
 posts.get('/byUser/:userId', (req, res, next) => {
-    Post.findAll({
+    db.post.findAll({
         where: {
-            user_id: req.params.userId
+            userId: req.params.userId
         }
     })
         .then((result) => {

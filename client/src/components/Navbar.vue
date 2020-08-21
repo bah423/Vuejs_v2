@@ -5,6 +5,7 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
+      
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li v-if="token  != null ">
@@ -18,7 +19,7 @@
            </li>
 
           <li v-if="token  != null ">
-            <a class="nav-link" to="/login" @click="logOut()">Déconnexion</a>
+               <a class="nav-link" @click="logOut()">Déconnexion</a>
            </li>
            
 
@@ -39,7 +40,7 @@ export default {
   data(){
     return {
       auth: '',
-      token: localStorage.usertoken,
+      token: localStorage.token,
     }
   },
   methods: {

@@ -1,18 +1,20 @@
 <template>
 <div class="container">
   
-  
+  <div class="posts">
     <ul>
-        <li v-for="post in posts" :key="post.id" @click="showPostDelails(post.id)">
-        <img style="height:200px; width:200px" :src="'http://localhost:3000/images/'+ post">
+        <li v-for="post in posts" :key="post.id" >
+        <img @click="showPostDelails(post.id)" style="height:200px; width:200px" :src="'http://localhost:3000/'+ post.media.path">
        <tr/>
-        <b>Titre:</b>  {{post.titre}} <br>
-        <b>Contenu : </b> {{post.content}}
+        <b>Label:</b>  {{post.titre}} <br>
+        <b>description : </b> {{post.content}}
           <tr/>
         <b> publie par : </b> {{post.user.name}} à {{changeDateFormat(post.created_at)}}
-        </li> 
-    </ul>
 
+        </li> 
+        
+    </ul>
+  </div>
 </div>
 </template>
 <script>
@@ -22,12 +24,15 @@ export default {
     name: "posts",
     data()  {
     return {
-        posts:[]
+        posts:[],
+        token: "",
+        userId: localStorage.user_id
     }
 
 },
     mounted(){
 
+    this.token = localStorage.getItem("token")
         this.getAllPost();
     },
 
@@ -37,7 +42,7 @@ export default {
 
         getAllPost(){
     
-        axios.get("http://localhost:3000/posts/list").then(res => { 
+        axios.get("http://localhost:3000/posts/Posts",this.getHeaders(this.token)).then(res => { 
             console.log(res)
             this.posts= res.data.reverse();
         }).catch(err => {
@@ -49,10 +54,44 @@ export default {
         this.$router.push({name: 'postDetails', params: {id: id}})
      },
      changeDateFormat(date){
-        return new Date(date).toLocaleString();
-     }
-     
+            return new Date(date).toLocaleString();
+     },
+        deletePost(id) {
+
+   if(confirm("Do you really want to delete?")){
+
+                axios.delete('http://localhost:3000/posts/'+id,this.getHeaders(this.token))
+                .then(() => {
+                    alert("Votre publication à été avec success"),
+                    this.getAllPost()
+                 })
+                .catch(error => {
+                    console.log(error);
+                })
+   }
+   },
+
+      getHeaders(token) {
+
+    const config = {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    }
+    return config
 }
+}
+
         
     };
 </script>
+
+<style scoped>
+    .posts ul li{
+        list-style: none;
+        margin-top:3%
+    }
+    .posts{
+        margin-top: 2%
+    }
+</style>

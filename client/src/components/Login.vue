@@ -30,7 +30,7 @@ export default { data() {
         login() { 
             axios.post('http://localhost:3000/users/login',{ email: this.email, password: this.password })
             .then(res => { 
-                localStorage.setItem('usertoken', res.data.token) 
+                localStorage.setItem('token',res.data.token) 
                 localStorage.setItem('user_id', res.data.id)
                  
                 console.log(res)
@@ -45,10 +45,10 @@ export default { data() {
     }
 </script>
 
-<style  scoped>
- form{
-   margin-top: 2%;
- }
+<style scoped>
+    form {
+      margin-top: 4%
+    }
 </style>
 
 

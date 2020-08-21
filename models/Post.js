@@ -1,52 +1,43 @@
-const Sequelise = require("sequelize")
-const db = require ("../database/db.js")
-const User = require("./User")
-const Media = require ("./media")
-const Comment = require("./Comment")
 
-const Post = db.sequelize.define(
+module.exports = function(sequelize, DataTypes) {
+    var Post = sequelize.define(
     "post",
     {
         id: {
-            type: Sequelise.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
+            primaryKey: true
         },
         titre: {
-            type: Sequelise.STRING
+            type: DataTypes.STRING
         },
         slug: {
-            type: Sequelise.STRING
+            type: DataTypes.STRING
         },
         content: {
-            type: Sequelise.TEXT
-        },
-        status: {
-            type: Sequelise.INTEGER
-        },
-        user_id: {
-            type: Sequelise.INTEGER
-        },
-        media_id: {
-            type: Sequelise.INTEGER
+            type: DataTypes.TEXT
         },
         created_at: {
-            type: Sequelise.DATE,
-            defaultValue: Sequelise.NOW
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW
         },
         updated_at: {
-            type: Sequelise.DATE,
-            defaultValue: Sequelise.NOW
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW
 
-        }
-    },
-    {
-        timestamps: false
-    },
+        }, 
+        
+      }
+    
+    
+    )
+    Post.associate = models => {
+        Post.hasMany(models.comment, { onDelete: 'cascade' });
+        Post.belongsTo(models.user, { onDelete: 'cascade' });
+        Post.hasOne(models.media, { onDelete: 'cascade' });
 
-)
-User.hasMany(Post, {foreignKey: 'user_id'})
-Post.belongsTo(User, {foreignKey: 'user_id'})
-Post.belongsTo(Media, {foreignKey: 'media_id'})
-
-module.exports = Post
+ }
+        
+        
+    return Post
+}

@@ -3,7 +3,7 @@
         <div class="container">
         <form v-on:submit.prevent="register">
             <div class="form-group">
-                <label for="userName">Nom</label>
+                <label for="userName">Prénom et Nom</label>
                 <input type="text" class="form-control" id="userName" aria-describedby="emailHelp" v-model="name">
               </div>
             <div class="form-group">
@@ -55,7 +55,7 @@ export default {
 </script>
 
 <style  scoped>
-  form{
-   margin-top: 2%;
- }
+    form {
+      margin-top: 4%
+    }
 </style>
