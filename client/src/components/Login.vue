@@ -12,7 +12,10 @@
             </div>
             <button type="submit" class="btn btn-primary">connexion</button>
             <router-link class="nav-link" to="/register">Vous n'avez pas un compte ? inscrivez-vous</router-link>
+            <br>
+            <router-link class="nav-link" to="#">Mot de passe oublié? cliquez ici</router-link>
           </form>
+          
     </div>
     </div>
 </template>
