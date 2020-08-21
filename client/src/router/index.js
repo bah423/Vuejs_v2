@@ -11,6 +11,7 @@ import Post from "../components/Post"
 import profilUpdate from "../components/updateProfile"
 import updatePassword from "../components/ForgotPassword"
 import postUpdate from "../components/updatePost"
+import reinitPassword from "../components/reinitPassword"
 Vue.use(VueRouter)
 const routes = [
     {
@@ -76,7 +77,12 @@ const routes = [
             path: '/register',
             name: 'Register',
             component: Register 
-           }
+        },
+        {
+            path: '/reinitPassword',
+            name: 'reinitPassword',
+            component: reinitPassword 
+        }
     ]
 
 
