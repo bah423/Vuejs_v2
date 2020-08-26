@@ -8,7 +8,7 @@ const authenticate = require("../authenticate");
 users.use(cors())
 
 //LIST USERS
-//Get Task list
+//GET ALL USERS
 users.get("/Users",authenticate.verifyUser,(req, res) => {
     db.user.findAll()
         .then(users => {
@@ -35,7 +35,7 @@ users.get('/Users/:id',authenticate.verifyUser,(req, res) => {
         })
 })
 
-//update ONE USER
+//UPDATE ONE USER
 users.put('/update/:id',authenticate.verifyUser,(req, res) => {
 
  const userTO = req.body
@@ -58,7 +58,7 @@ users.put('/update/:id',authenticate.verifyUser,(req, res) => {
 })
 
 
-//Update password
+//UPDATE PASSWORD
 users.put('/updatePassword/:id',authenticate.verifyUser, (req, res) => {
 
     const data = req.body
@@ -137,7 +137,7 @@ users.post('/register',(req, res) => {
         })
 })
 
-//Login
+//LOGIN
 users.post('/login', (req, res) => {
     db.user.findOne({
         where: {
@@ -182,7 +182,7 @@ users.post('/reinitPassword', (req, res) => {
             res.status(400).json({ error: err })
         })
 })*/
-
+//DELETE ONE USER
 users.delete('/:userId',authenticate.verifyUser, async (req,res)=>{
 const id = req.params.userId
 

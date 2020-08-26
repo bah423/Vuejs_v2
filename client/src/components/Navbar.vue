@@ -19,7 +19,7 @@
            </li>
 
           <li v-if="token  != null ">
-               <a class="nav-link" @click="logOut()">Déconnexion</a>
+              <a href="#" style="cursor: pointer;" class="nav-link" @click="logOut()"> Déconnexion</a>
            </li>
            
 

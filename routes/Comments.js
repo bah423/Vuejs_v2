@@ -44,7 +44,7 @@ comments.post('/add', (req, res, next) => {
 })
 
 
-// Delete Comment
+// DELETE COMMENT
 comments.delete('/:id', (req, res, next) => {
     db.comment.destroy({
         where: {
@@ -59,7 +59,7 @@ comments.delete('/:id', (req, res, next) => {
         })
 })
 
-// GET Comments by PostId
+// GET COMMENT BY PostId
 comments.get('/byPost/:postId', (req, res, next) => {
 
 
@@ -75,7 +75,7 @@ comments.get('/byPost/:postId', (req, res, next) => {
             res.send('error: ' + err)
         })
 })
-// GET Comments by UserId
+// GET COMMENT BY UserId
 comments.get('/byUser/:userId', (req, res, next) => {
     db.comment.findAll({
         where: {
@@ -90,7 +90,7 @@ comments.get('/byUser/:userId', (req, res, next) => {
         })
 })
 
-// Update Comment
+// UPDATE COMMENT
 comments.put('/:id', (req, res, next) => {
 
      newComment = req.body

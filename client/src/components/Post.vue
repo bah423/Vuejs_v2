@@ -24,12 +24,64 @@
       <br> 
     <a  class="a1" v-if="com.user.id==userId" type="button" @click="deleteComment(com.id)">supprimer</a>
 
-   <!-- <input type="text" placeholder="comment" id="ex"  style="width:500px" v-model="com.contenu"> -->
-    <button  class="a2" v-if="com.user.id==userId" type="button" @click="updateComment(com.id,com.contenu)">modifier </button>
+    <input type="text" placeholder="comment" id="ex"  style="width:500px" v-model="com.contenu" v-if="formVisible">
+    <!--<button  class="a2" v-if="com.user.id==userId" type="button" @click="updateComment(com.id)">modifier </button>-->
+    <!-- Button trigger modal-->
+  <button type="button" class="btn btn-primary a2" data-toggle="modal" data-target="#exampleModal"
+  v-if="com.user.id==userId" @click="updateComment(com.id)">modifier
+  </button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modification de votre commentaire</h5>
+        <button type="text" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" style="width: 475px; height: 50px">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <button type="button" class="btn btn-primary">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- fin de du code modal-->
         </li>
     </ul>
+    <!--Le code modal-->
+ <!-- Button trigger modal 
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  </button>-->
 
-    <input type="text" placeholder="comment" id="ex"  style="width:500px" v-model="comment.contenu" v-if="comment !== 0"><br>
+<!-- Modal 
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <button type="button" class="btn btn-primary">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+</div>-->
+<!-- fin de du code modal-->
+
+    <input type="text" placeholder="comment" id="ex"  style="width:80%" v-model="comment.contenu" v-if="comment !== 0"><br>
     <button type="button" @click="addComment">Ajouter un commentaire</button>
 
 </div>
@@ -65,9 +117,9 @@ export default {
 
     }),
     mounted(){
-        this.token = localStorage.getItem("token")
+      this.token = localStorage.getItem("token")
 
-        this.post_id = this.$route.params.id; 
+      this.post_id = this.$route.params.id; 
       this.getPostInfo(this.post_id);
       this.getComments(this.post_id);
     },
@@ -152,14 +204,33 @@ export default {
                 })
    }
    },
-   updateComment(id,contenu){
+   //Une prop calculée
+   computed: {
+    formVisible: function () {
+        return this.com.contenu === this.com.contenu
+      }
+   },
+    updateCom: function () {
+        return this.comment.id === 0 ? this.comment.id : this.comment
+      },
+    //Fin prop calculée
+   updateComment(id){
+
        let user_id = localStorage.getItem("user_id")  
            this.comment.userId = user_id
            this.comment.postId = this.post_id
-            this.comment.contenu = contenu
+           //this.comment.contenu = contenu
            console.log(this.comment)
     
-        axios.put("http://localhost:3000/comments/"+id,this.comment,this.getHeaders(this.token)).then(res => { 
+       /* axios.get("http://localhost:3000/comments/"+id, this.comment,this.getHeaders(this.token)).then(res => { 
+           this.comment = {}
+           console.log(res)
+           this.getComments(this.post_id)
+
+        }).catch(err => {
+            console.log(err)
+        })*/
+        axios.put("http://localhost:3000/comments/"+id, this.comment,this.getHeaders(this.token)).then(res => { 
            this.comment = {}
            console.log(res)
            this.getComments(this.post_id)
@@ -167,6 +238,7 @@ export default {
         }).catch(err => {
             console.log(err)
         })
+
    },
    
    goToUpdatePost(){
@@ -201,6 +273,8 @@ export default {
         transform: translateY(-20px);
         text-align: center;
         width: 100px;
+        height: 35px;
+        padding-top: 4px;
         margin-right: 3%;
         list-style: none;
         background-color: red;
