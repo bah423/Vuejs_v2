@@ -17,22 +17,19 @@
     </ul>
 
    <ul>
-      <li v-for="com in comments" :key="com.id">
-       <b>{{com.user.name}}</b> a commenté  : {{changeDateFormat(com.created_at)}} <tr/>
+      <li v-for="com in comments" :key="com.id" >
+       <b>{{com.user.name}}</b> a commenté  : le {{changeDateFormat(com.created_at)}} <tr/>
        <b>contenu : </b> {{com.contenu}}<br>
-       
-    <input type="text" placeholder="comment" id="ex"  style="width:500px" v-model="com.contenu">
 
       <br> 
-    <button  v-if="com.user.id==userId" type="button" @click="deleteComment(com.id)">supprimer commentaire</button>
+    <a  class="a1" v-if="com.user.id==userId" type="button" @click="deleteComment(com.id)">supprimer</a>
 
-    
-    <button v-if="com.user.id==userId" type="button" @click="updateComment(com.id,com.contenu)">modifier commentaire</button>
-
+   <!-- <input type="text" placeholder="comment" id="ex"  style="width:500px" v-model="com.contenu"> -->
+    <button  class="a2" v-if="com.user.id==userId" type="button" @click="updateComment(com.id,com.contenu)">modifier </button>
         </li>
     </ul>
 
-    <input type="text" placeholder="comment" id="ex"  style="width:500px" v-model="comment.contenu"><br>
+    <input type="text" placeholder="comment" id="ex"  style="width:500px" v-model="comment.contenu" v-if="comment !== 0"><br>
     <button type="button" @click="addComment">Ajouter un commentaire</button>
 
 </div>
@@ -68,7 +65,7 @@ export default {
 
     }),
     mounted(){
-            this.token = localStorage.getItem("token")
+        this.token = localStorage.getItem("token")
 
         this.post_id = this.$route.params.id; 
       this.getPostInfo(this.post_id);
@@ -88,35 +85,44 @@ export default {
         })
     },
        addComment(){
-            let user_id = localStorage.getItem("user_id")  
+           this.errors = {}
+           let user_id = localStorage.getItem("user_id")  
            this.comment.userId = user_id
            this.comment.postId = this.post_id
       
            console.log(this.comment)
     
         axios.post("http://localhost:3000/comments/add",this.comment,this.getHeaders(this.token)).then(res => { 
-           this.comment = {}
+           this.comment.contenu = {}
            console.log(res)
            this.getComments(this.post_id)
            
         }).catch(err => {
             console.log(err)
+            this.errors = Response.data
+        }).then(() => {
+            if(Object.keys(this.errors).length === 0){
+                this.comment.contenu = ''
+            }
         })
     },
         getComments(postId){
-    
+           this.errors = {}
         axios.get("http://localhost:3000/comments/byPost/"+postId,this.getHeaders(this.token)).then(res => { 
             console.log(res.data)
-
-            this.comments= res.data;
+            this.comments= res.data
         }).catch(err => {
             console.log(err)
+        }).then(() => {
+           if(Object.keys(this.errors).length === 0){
+                this.comment.contenu = ''
+            }
         })
     },
      changeDateFormat(date){
             return new Date(date).toLocaleString();
      },
-      deletePost(id) {
+    deletePost(id) {
 
    if(confirm("Do you really want to delete?")){
 
@@ -161,11 +167,11 @@ export default {
         }).catch(err => {
             console.log(err)
         })
-   }
+   },
    
-   ,goToUpdatePost(){
+   goToUpdatePost(){
 
-                    router.push({name:'postUpdate' ,params: {id: this.post_id}})
+         router.push({name:'postUpdate' ,params: {id: this.post_id}})
 
    },
       getHeaders(token) {
@@ -190,6 +196,24 @@ export default {
     button{
         margin-right: 2%;
         margin-top: 1%
+    }
+    .a1{
+        transform: translateY(-20px);
+        text-align: center;
+        width: 100px;
+        margin-right: 3%;
+        list-style: none;
+        background-color: red;
+        color: white;
+    }
+    .a2{
+        transform: translateY(-20px);
+        text-align: center;
+        width: 100px;
+        margin-right: 3%;
+        list-style: none;
+        background-color: green;
+        color: white;
     }
 
 </style>

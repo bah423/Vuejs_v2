@@ -160,7 +160,7 @@ users.post('/login', (req, res) => {
         })
 })
 
-//Reinitialisation de mot de passe
+/*Reinitialisation de mot de passe
 users.post('/reinitPassword', (req, res) => {
     db.user.findOne({
         where: {
@@ -181,7 +181,7 @@ users.post('/reinitPassword', (req, res) => {
         .catch(err => {
             res.status(400).json({ error: err })
         })
-})
+})*/
 
 users.delete('/:userId',authenticate.verifyUser, async (req,res)=>{
 const id = req.params.userId

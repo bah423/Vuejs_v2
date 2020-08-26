@@ -6,7 +6,7 @@
                 <label for="userName">Prénom et Nom</label>
                 <input type="text" class="form-control" id="userName" aria-describedby="emailHelp" v-model="data.name">
               </div>
-           <!--- <div class="form-group">
+           <!-- <div class="form-group">
               <label for="exampleInputEmail1">Email address</label>
               <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="data.email">
             </div>-->

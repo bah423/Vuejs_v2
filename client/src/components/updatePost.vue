@@ -77,6 +77,8 @@ mounted(){
             }
         }).then(() => { 
                 alert("post modifié avec succes")
+                this.post.titre = ""
+                this.post.content = ""
         }).catch(err => {
             console.log(err)
         })

@@ -4,7 +4,7 @@
         <form>
             <div class="form-group">
               <label for="exampleFormControlInput1">titre</label>
-              <input type="text" class="form-control" v-model="post.label" id="exampleFormControlInput1" placeholder="name@example.com">
+              <input type="text" class="form-control" v-model="post.label" id="exampleFormControlInput1" placeholder="titre de votre post">
             </div>
         
             <!--<div class="form-group">
@@ -71,6 +71,9 @@ name: "addPost",
         }).then(res => { 
                 console.log(res)
                 alert("post ajoute avec succes")
+                this.post_type = ""
+                this.description = ""
+                this.label = ""
         }).catch(err => {
             console.log(err)
         })
