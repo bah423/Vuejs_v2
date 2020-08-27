@@ -24,11 +24,11 @@
       <br> 
     <a  class="a1" v-if="com.user.id==userId" type="button" @click="deleteComment(com.id)">supprimer</a>
 
-    <input type="text" placeholder="comment" id="ex"  style="width:500px" v-model="com.contenu" v-if="formVisible">
+    <!--<input type="text" placeholder="comment" id="ex"  style="width:500px" v-model="com.contenu" v-if="formVisible">-->
     <!--<button  class="a2" v-if="com.user.id==userId" type="button" @click="updateComment(com.id)">modifier </button>-->
     <!-- Button trigger modal-->
   <button type="button" class="btn btn-primary a2" data-toggle="modal" data-target="#exampleModal"
-   v-if="com.user.id==userId" @click="updateComment(com.id)">modifier
+   v-if="com.user.id==userId" @click="updateComment(com.id, com.contenu)">modifier
   </button>
 
 <!-- Modal -->
@@ -46,7 +46,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-        <button type="button" class="btn btn-primary" v-if="com.user.id==userId" @click="updateComment(com.id)">
+        <button type="button" class="btn btn-primary" v-if="com.user.id==userId" @click="updateComment(com.id, com.contenu)">
         Enregistrer</button>
       </div>
     </div>
@@ -56,7 +56,7 @@
         </li>
     </ul>
     <input type="text" placeholder="comment" id="ex"  style="width:80%" v-model="comment.contenu" v-if="comment !== 0"><br>
-    <button type="button" @click="addCommentPut">Ajouter un commentaire</button>
+    <button type="button" @click="addComment">Ajouter un commentaire</button>
 
 </div>
 </template>
@@ -178,7 +178,7 @@ export default {
                 })
    }
    },
-   //Une prop calculée
+   /*Une prop calculée
    computed: {
     formVisible: function () {
         return this.com.contenu === this.com.contenu
@@ -187,16 +187,16 @@ export default {
     updateCom: function () {
         return this.comment.id === 0 ? this.comment.id : this.comment
       },
-    //Fin prop calculée
-   updateComment(id){
+    /Fin prop calculée*/
+   updateComment(id, contenu){
 
        let user_id = localStorage.getItem("user_id")  
            this.comment.userId = user_id
            this.comment.postId = this.post_id
-           //this.comment.contenu = contenu
+           this.comment.contenu = contenu
            console.log(this.comment)
     
-        axios.get("http://localhost:3000/comments/"+id, this.comment,this.getHeaders(this.token)).then(res => { 
+        axios.put("http://localhost:3000/comments/"+id, this.comment,this.getHeaders(this.token)).then(res => { 
            this.comment = {}
            console.log(res)
            this.getComments(this.post_id)
