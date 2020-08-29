@@ -1,7 +1,7 @@
 <template>
-    <div>
-       <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Groupomania</a>
+    <div >
+       <nav class="navbar navbar-expand-lg navbar-light bg-light " >
+        <a class="navbar-brand nav-a" href="#" style="background-color:black;color:#EF6D0D; font-weigth:bold;font-size:2em">Groupomania</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -9,17 +9,17 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li v-if="token  != null ">
-               <router-link class="nav-link" to="/posts">Publications</router-link>
+               <router-link class="nav-link" to="/posts" style="color:white;font-weigth:bold;font-size:1.05em">Publications</router-link>
            </li>
        <li v-if="token  != null ">
-               <router-link class="nav-link" to="/post/add">Ajouter une publication</router-link>
+               <router-link class="nav-link" to="/post/add" style="color:white;font-weigth:bold;font-size:1.05em">Ajouter une publication</router-link>
            </li>
               <li v-if="token  != null ">
-               <router-link class="nav-link" to="/profil">Mon profil</router-link>
+               <router-link class="nav-link" to="/profil" style="color:white;font-weigth:bold;font-size:1.05em">Mon profil</router-link>
            </li>
 
-          <li v-if="token  != null ">
-              <a href="#" style="cursor: pointer;" class="nav-link" @click="logOut()"> Déconnexion</a>
+          <li v-if="token  != null " >
+              <a href="#" style="cursor: pointer;color:white;font-weigth:bold;font-size:1.05em" class="nav-link" @click="logOut()" > Décconnexion</a>
            </li>
            
 
@@ -51,3 +51,16 @@ export default {
   },
 }
 </script>
+<style  scoped>
+li{
+  background-color:blue;
+  margin-right: 15px;
+  font-weight:bold;
+  font-size:1.05em
+
+}
+.nav-a{
+height: 50px;
+padding: 2px;
+}
+</style>
