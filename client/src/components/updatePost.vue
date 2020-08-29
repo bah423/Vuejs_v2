@@ -27,6 +27,7 @@
 </template>
 <script>
 import axios from "axios"
+import router from "../router"
 export default {
 
 name: "updatePost",
@@ -62,7 +63,7 @@ mounted(){
             
             let user_id = localStorage.getItem("user_id")         
             let formData = new FormData();
-            alert( this.post.media.id)
+           // alert( this.post.media.id)
             formData.append('file', this.file);
             formData.append('titre', this.post.titre);
             formData.append('content', this.post.content);
@@ -79,6 +80,7 @@ mounted(){
                 alert("post modifié avec succes")
                 this.post.titre = ""
                 this.post.content = ""
+                router.push({name: 'Posts'})
         }).catch(err => {
             console.log(err)
         })

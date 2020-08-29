@@ -25,13 +25,14 @@
     <a  class="a1" v-if="com.user.id==userId" type="button" @click="deleteComment(com.id)">supprimer</a>
 
     <!--<input type="text" placeholder="comment" id="ex"  style="width:500px" v-model="com.contenu" v-if="formVisible">-->
-    <!--<button  class="a2" v-if="com.user.id==userId" type="button" @click="updateComment(com.id)">modifier </button>-->
+    <button  class="a2" v-if="com.user.id==userId" type="button"  @click="goToDetail(com.id)">modifier </button>
     <!-- Button trigger modal-->
-  <button type="button" class="btn btn-primary a2" data-toggle="modal" data-target="#exampleModal"
-   v-if="com.user.id==userId" @click="updateComment(com.id, com.contenu)">modifier
-  </button>
-
-<!-- Modal -->
+  <!--<button type="button" class="btn btn-primary a2" data-toggle="modal" data-target="#exampleModal"
+    >modifier
+    <router-link class="nav-link" to="/updateComment"></router-link>
+  </button>-->
+ <!--A remmetre dans le boutton ci-dessus:v-if="com.user.id==userId" @click="updateComment(com.id, com.contenu)"-->
+<!-- Modal 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -46,12 +47,13 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-        <button type="button" class="btn btn-primary" v-if="com.user.id==userId" @click="updateComment(com.id, com.contenu)">
-        Enregistrer</button>
+        <button type="submit" class="btn btn-primary" v-if="com.user.id==userId" @click="updateCommentPut(com.id, com.contenu)">
+        Enregistrer
+        </button>
       </div>
     </div>
   </div>
-</div>
+</div>-->
 <!-- fin de du bloc modal-->
         </li>
     </ul>
@@ -64,10 +66,11 @@
 <script>
 import axios from "axios"
 import router from "../router"
+import updateComment from "../components/updateComment"
 
 export default {
     name : "post",
-
+    component: {updateComment},
    data: () => ({
 
         post_id:"",
@@ -199,34 +202,43 @@ export default {
         axios.put("http://localhost:3000/comments/"+id, this.comment,this.getHeaders(this.token)).then(res => { 
            this.comment = {}
            console.log(res)
-           this.getComments(this.post_id)
+           this.getComments(this.post_id, this.comment.contenu)
 
         }).catch(err => {
             console.log(err)
         })
    },
-    updateCommentPut(id){
-           let user_id = localStorage.getItem("user_id")  
+
+   //Partie à décommenter
+    /*updateComment(id, contenu){
+
+       let user_id = localStorage.getItem("user_id")  
            this.comment.userId = user_id
            this.comment.postId = this.post_id
-           //this.comment.contenu = contenu
+           this.comment.contenu = contenu
            console.log(this.comment)
     
         axios.put("http://localhost:3000/comments/"+id, this.comment,this.getHeaders(this.token)).then(res => { 
            this.comment = {}
            console.log(res)
-           this.getComments(this.post_id)
+           this.getComments(this.post_id, this.comment)
+           contenu = res.data
+           console.log(contenu)
+           alert('Le commentaire a bien été modifié !')
 
         }).catch(err => {
             console.log(err)
         })
+   },*/
+   //Fin de partie à décommenter
 
-   },
-   
    goToUpdatePost(){
 
          router.push({name:'postUpdate' ,params: {id: this.post_id}})
 
+   },
+   goToDetail(id_comment){
+    router.push({name:'DetailComment' ,params: {id: id_comment}})
    },
       getHeaders(token) {
 
@@ -266,6 +278,7 @@ export default {
         transform: translateY(-20px);
         text-align: center;
         width: 100px;
+        height: 38px;
         margin-right: 3%;
         list-style: none;
         background-color: green;

@@ -10,14 +10,12 @@
             <button type="submit" class="btn btn-primary">Envoyer</button>
         </form>
 
-
-
     </div>
 </template>
 
 <script>
 import axios from 'axios'
-import router from '../router'
+//import router from '../router'
 
 
 export default {
@@ -29,12 +27,12 @@ export default {
    methods: {
      reinit () {
         axios.post("http://localhost:3000/users/reinitPassword", {
-          email: this.email,
-          role_id: 2 
+          email: this.email 
            
         }).then(res => { 
             console.log(res)
-            router.push({email:'Login'})
+            return false
+            //router.push({email:'Login'})
         }).catch(err => {
             console.log(err)
         })

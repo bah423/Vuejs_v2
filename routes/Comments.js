@@ -89,6 +89,22 @@ comments.get('/byUser/:userId', (req, res, next) => {
             res.send('error: ' + err)
         })
 })
+//Detail comment
+comments.get('/details/:id', (req, res, next) => {
+    
+    db.comment.findOne({
+        where: {
+            id: req.params.id
+        },
+        include: []
+    })
+        .then(comment => {
+            res.json(comment)
+        })
+        .catch(err => {
+            res.send('error: ' + err)
+        })
+})
 
 // UPDATE COMMENT
 comments.put('/:id', (req, res, next) => {

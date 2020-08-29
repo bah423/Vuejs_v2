@@ -2,10 +2,21 @@ const express = require("express")
 const users = express.Router()
 const cors = require("cors")
 const jwt = require("jsonwebtoken")
+const nodemailer = require('nodemailer');
 const bcrypt = require("bcrypt")
 var db = require('../models/index');
 const authenticate = require("../authenticate");
 users.use(cors())
+var transport = nodemailer.createTransport({
+    host: "smtp.mailtrap.io",
+    secure: false,
+    port: 2525,
+    auth: {
+      user: "c593ca4a2647b7",
+      pass: "ff11d87d1b4957"
+    },
+    tls: { rejectUnauthorized: false }
+  });
 
 //LIST USERS
 //GET ALL USERS
@@ -129,7 +140,8 @@ users.post('/register',(req, res) => {
                         })
                 })
             } else {
-                res.json({ error: 'User already exists' })
+                res.status(400).send({ error: 'User already exists' })
+                return
             }
         })
         .catch(err => {
@@ -152,7 +164,7 @@ users.post('/login', (req, res) => {
                     res.status(200).json({token:token,id:user.id})
                 }
             } else {
-                res.status(400).json({ error: 'User does not exist' })
+                res.json({ message:'NOK' })
             }
         })
         .catch(err => {
@@ -160,7 +172,7 @@ users.post('/login', (req, res) => {
         })
 })
 
-/*Reinitialisation de mot de passe
+//Reinitialisation de mot de passe
 users.post('/reinitPassword', (req, res) => {
     db.user.findOne({
         where: {
@@ -169,19 +181,30 @@ users.post('/reinitPassword', (req, res) => {
     })
         .then(user => {
             if (user) {
-                if (bcrypt.compareSync(req.body.password, user.password)) {
-                    let payload = { id: user.id };
-                    let token = authenticate.getToken(payload)
-                    res.status(200).json({token:token,id:user.id})
-                }
+               /* const message = {
+                    from: 'elonmusk@tesla.com', // Sender address
+                    to: req.body.email,         // List of recipients
+                    subject: 'Design Your Model S | Tesla', // Subject line
+                    text: 'Have the most fun you can in a car. Get your Tesla today!' // Plain text body
+                };
+                transport.sendMail(message, function(err, info) {
+                    if (err) {
+                      console.log(err)
+                    } else {
+                      console.log(info);
+                      console.log("email envoyé")
+                    }
+                });*/
+                res.json(user)
             } else {
+
                 res.status(400).json({ error: 'User does not exist' })
             }
         })
         .catch(err => {
             res.status(400).json({ error: err })
         })
-})*/
+})
 //DELETE ONE USER
 users.delete('/:userId',authenticate.verifyUser, async (req,res)=>{
 const id = req.params.userId

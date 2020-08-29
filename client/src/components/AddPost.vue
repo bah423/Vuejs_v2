@@ -30,6 +30,8 @@
 </template>
 <script>
 import axios from "axios"
+import Swal from "sweetalert2"
+import router from "../router"
 export default {
 
 name: "addPost",
@@ -70,10 +72,16 @@ name: "addPost",
             }
         }).then(res => { 
                 console.log(res)
-                alert("post ajoute avec succes")
+                Swal.fire(
+                 'Good job!',
+                 'You clicked the button!',
+                 'success'
+                )
                 this.post_type = ""
                 this.description = ""
                 this.label = ""
+                router.push({name:'Posts'})
+ 
         }).catch(err => {
             console.log(err)
         })

@@ -12,6 +12,8 @@ import profilUpdate from "../components/updateProfile"
 import updatePassword from "../components/ForgotPassword"
 import postUpdate from "../components/updatePost"
 import reinitPassword from "../components/reinitPassword"
+import updateComment from "../components/updateComment"
+import DetailComment from "../components/DetailComment"
 Vue.use(VueRouter)
 const routes = [
     {
@@ -64,6 +66,16 @@ const routes = [
                 path: '/post/update/:id',
                 name:    'postUpdate',
                 component: postUpdate
+            },
+            {
+                path: '/comment/:id',
+                name:    'DetailComment',
+                component: DetailComment
+            },
+            {
+                path: '/updateComment',
+                name:    'updateComment',
+                component: updateComment
             }
             
          ]

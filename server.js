@@ -9,7 +9,7 @@ var db = require(__dirname + '/models/index');
 let authenticate = require("./authenticate")
 // Sync the database models
 db.sequelize.sync({
-   //force: true,
+//force: true,
   alter: true
 });
 app.use(express.json()); // support json encoded bodies
