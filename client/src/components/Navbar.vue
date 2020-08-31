@@ -10,18 +10,17 @@
           <ul class="navbar-nav mr-auto">
             <li v-if="token  != null ">
                <router-link class="nav-link" to="/posts" style="color:white;font-weigth:bold;font-size:1.05em">Publications</router-link>
-           </li>
-       <li v-if="token  != null ">
+            </li>
+            <li v-if="token  != null ">
                <router-link class="nav-link" to="/post/add" style="color:white;font-weigth:bold;font-size:1.05em">Ajouter une publication</router-link>
-           </li>
+            </li>
               <li v-if="token  != null ">
                <router-link class="nav-link" to="/profil" style="color:white;font-weigth:bold;font-size:1.05em">Mon profil</router-link>
-           </li>
+            </li>
 
-          <li v-if="token  != null " >
+            <li v-if="token  != null " >
               <a href="#" style="cursor: pointer;color:white;font-weigth:bold;font-size:1.05em" class="nav-link" @click="logOut()" > Décconnexion</a>
-           </li>
-           
+            </li>
 
           </ul>
         </div>

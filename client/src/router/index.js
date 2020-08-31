@@ -4,14 +4,12 @@ import Profil from '../components/Profil'
 import Register from '../components/Register'
 import Posts from '../components/Posts'
 import AddPost from '../components/AddPost'
-import DetailsPost from '../components/DetailsPost'
 import VueRouter from "vue-router";
 import Vue from "vue";
 import Post from "../components/Post"
 import profilUpdate from "../components/updateProfile"
 import updatePassword from "../components/ForgotPassword"
 import postUpdate from "../components/updatePost"
-import reinitPassword from "../components/reinitPassword"
 import updateComment from "../components/updateComment"
 import DetailComment from "../components/DetailComment"
 Vue.use(VueRouter)
@@ -42,11 +40,7 @@ const routes = [
                 name: 'AddPost',
                 component: AddPost 
                },
-               {
-                path: '/post/detail/:slug',
-                name: 'DetailsPost',
-                component: DetailsPost
-               },
+
                {
                    path: '/post/:id',
                    name:    'postDetails',
@@ -89,12 +83,8 @@ const routes = [
             path: '/register',
             name: 'Register',
             component: Register 
-        },
-        {
-            path: '/reinitPassword',
-            name: 'reinitPassword',
-            component: reinitPassword 
         }
+
     ]
 
 

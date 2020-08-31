@@ -6,12 +6,7 @@
               <label for="exampleFormControlInput1">titre</label>
               <input type="text" class="form-control" v-model="post.label" id="exampleFormControlInput1" placeholder="titre de votre post">
             </div>
-        
-            <!--<div class="form-group">
-              <label >Type de publication</label>
-              <input type="text" class="form-control" v-model="post.post_type" placeholder="3">
-            </div>
-            -->
+
             <div class="form-group">
               <label for="exampleFormControlTextarea1">Desciption</label>
               <textarea class="form-control" id="exampleFormControlTextarea1" v-model="post.description" rows="3"></textarea>

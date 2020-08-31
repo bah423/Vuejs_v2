@@ -24,37 +24,8 @@
       <br> 
     <a  class="a1" v-if="com.user.id==userId" type="button" @click="deleteComment(com.id)">supprimer</a>
 
-    <!--<input type="text" placeholder="comment" id="ex"  style="width:500px" v-model="com.contenu" v-if="formVisible">-->
     <button  class="a2" v-if="com.user.id==userId" type="button"  @click="goToDetail(com.id)">modifier </button>
-    <!-- Button trigger modal-->
-  <!--<button type="button" class="btn btn-primary a2" data-toggle="modal" data-target="#exampleModal"
-    >modifier
-    <router-link class="nav-link" to="/updateComment"></router-link>
-  </button>-->
- <!--A remmetre dans le boutton ci-dessus:v-if="com.user.id==userId" @click="updateComment(com.id, com.contenu)"-->
-<!-- Modal 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modification de votre commentaire</h5>
-        <button type="text" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <input type="text" style="width: 475px; height: 50px">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-        <button type="submit" class="btn btn-primary" v-if="com.user.id==userId" @click="updateCommentPut(com.id, com.contenu)">
-        Enregistrer
-        </button>
-      </div>
-    </div>
-  </div>
-</div>-->
-<!-- fin de du bloc modal-->
+   
         </li>
     </ul>
     <input type="text" placeholder="comment" id="ex"  style="width:80%" v-model="comment.contenu" v-if="comment !== 0"><br>
@@ -181,16 +152,7 @@ export default {
                 })
    }
    },
-   /*Une prop calculée
-   computed: {
-    formVisible: function () {
-        return this.com.contenu === this.com.contenu
-      }
-   },
-    updateCom: function () {
-        return this.comment.id === 0 ? this.comment.id : this.comment
-      },
-    /Fin prop calculée*/
+  
    updateComment(id, contenu){
 
        let user_id = localStorage.getItem("user_id")  
@@ -208,29 +170,6 @@ export default {
             console.log(err)
         })
    },
-
-   //Partie à décommenter
-    /*updateComment(id, contenu){
-
-       let user_id = localStorage.getItem("user_id")  
-           this.comment.userId = user_id
-           this.comment.postId = this.post_id
-           this.comment.contenu = contenu
-           console.log(this.comment)
-    
-        axios.put("http://localhost:3000/comments/"+id, this.comment,this.getHeaders(this.token)).then(res => { 
-           this.comment = {}
-           console.log(res)
-           this.getComments(this.post_id, this.comment)
-           contenu = res.data
-           console.log(contenu)
-           alert('Le commentaire a bien été modifié !')
-
-        }).catch(err => {
-            console.log(err)
-        })
-   },*/
-   //Fin de partie à décommenter
 
    goToUpdatePost(){
 

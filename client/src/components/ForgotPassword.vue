@@ -3,7 +3,7 @@
 
     <div class="eight wide column">
       <div class="ui segment">
-        <h3 class="ui dividing header">Change Password</h3>
+        <h4 class="ui dividing header">Change Password</h4>
 
         <form class="ui form" @submit.prevent="changePassword">
             <label>Current Password</label>

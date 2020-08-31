@@ -56,14 +56,14 @@ mounted(){
  methods: {
       handleFileUpload(){
           this.selectedPhoto = true
-    this.file = this.$refs.file.files[0];
+          this.file = this.$refs.file.files[0];
       },
- 
-        ModifyPost(){
+
+    // LA FONCTION QUI PERMET LA MODIFICATION D'UN POST
+    ModifyPost(){
             
             let user_id = localStorage.getItem("user_id")         
             let formData = new FormData();
-           // alert( this.post.media.id)
             formData.append('file', this.file);
             formData.append('titre', this.post.titre);
             formData.append('content', this.post.content);
@@ -86,7 +86,8 @@ mounted(){
         })
          
      },
-       getPostInfo(){
+    //LA FONCTION QUI PERMET DE QUI PERMET DE CHERCHER LE CONTENU DU POST 
+    getPostInfo(){
     
         axios.get("http://localhost:3000/posts/"+this.post_id,this.getHeaders(this.token)).then(res => { 
             console.log(res)

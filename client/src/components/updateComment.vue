@@ -11,14 +11,11 @@
             </button>
         </form>
 
-
-
     </div>
 </template>
 
 <script>
 import axios from 'axios'
-//import router from '../router'
 
 export default {
     data() {
@@ -39,6 +36,7 @@ export default {
     },
 
    methods: {
+    //LA FONCTION QUI PERMET DE MODIFIER UN COMMENTAIRE
       updateComment(id, contenu){
 
        let user_id = localStorage.getItem("user_id")  
@@ -55,28 +53,12 @@ export default {
            this.getComments(this.post_id, this.comment)
            contenu = res.data
            console.log(contenu)
-          // router.push({name: 'Post'})
+
         }).catch(err => {
             console.log(err)
         })
    },
-   /* updateCommentPut2(id, contenu){
-           let user_id = localStorage.getItem("user_id")  
-           this.comment.userId = user_id
-           this.comment.postId = this.post_id
-           this.comment.contenu = contenu
-           console.log(this.comment)
-    
-        axios.get("http://localhost:3000/comments/"+id, this.comment,this.getHeaders(this.token)).then(res => { 
-           this.comment = {}
-           console.log(res)
-           this.getComments(this.post_id, this.contenu)
 
-        }).catch(err => {
-            console.log(err)
-        })
-
-   }*/
   getHeaders(token) {
 
     const config = {

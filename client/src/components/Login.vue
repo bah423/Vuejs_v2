@@ -13,8 +13,7 @@
             </div>
             <button type="submit" class="btn btn-primary">connexion</button>
             <router-link class="nav-link" to="/register">Vous n'avez pas un compte ? inscrivez-vous</router-link>
-            <br>
-            <router-link class="nav-link" to="/reinitPassword">Mot de passe oublié? cliquez ici</router-link>
+            
           </form>
           
     </div>
@@ -50,32 +49,30 @@ export default { data() {
       e.preventDefault()
     },
 
-        login() { 
+    login() { 
           console.log(this.email)
-              /*if (this.password.length === 0) {
-                this.errors.push('Password required.')
-                alert("Password required ")
-                console.log(this.errors)
-                }*/
-              if(this.email === '' || this.password === ''){
-           Swal.fire({
-  icon: 'error',
-  title: 'Oops...',
-  text: 'Something went wrong!',
-  footer: '<a href>Why do I have this issue?</a>'
-})
-              }else{
-            axios.post('http://localhost:3000/users/login',{ email: this.email, password: this.password })
+
+          if(this.email === '' || this.password === ''){
+            Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+            footer: '<a href>Why do I have this issue?</a>'
+            })
+              }
+          else{
+            axios.post('http://localhost:3000/users/login',
+            { email: this.email, password: this.password })
             .then(res => { 
                 if(res.data.message === 'NOK'){
                   Swal.fire({ 
                   
-  icon: 'error',
-  title: 'Oops...',
-  text: 'Something went wrong!',
-  footer: '<a href>Why do I have this issue?</a>'
-}) 
-return false
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Something went wrong!',
+                  footer: '<a href>Why do I have this issue?</a>'
+                }) 
+                return false
                 }
                 localStorage.setItem('token',res.data.token) 
                 localStorage.setItem('user_id', res.data.id)
@@ -83,15 +80,17 @@ return false
                 console.log(res)
                  this.email='' 
                  this.password='' 
-                 router.push({name: 'Posts'}) })
-                 .catch(err => { console.log(err) , alert("Veuillez vérifier vos données") }) 
-                 this.emitMethod()
+                 router.push({name: 'Posts'}) 
+            })
+            .catch(err => { console.log(err) , alert("Veuillez vérifier vos données") }) 
+                this.emitMethod()
               }
 
              },
 
-                 emitMethod() { EventBus.$emit('logged-in','loggedin') 
-                }
+              emitMethod() { 
+                EventBus.$emit('logged-in','loggedin') 
+            }
       }
     }
 </script>

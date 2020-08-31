@@ -6,10 +6,6 @@
                 <label for="userName">Prénom et Nom</label>
                 <input type="text" class="form-control" id="userName" aria-describedby="emailHelp" v-model="data.name">
               </div>
-           <!-- <div class="form-group">
-              <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="data.email">
-            </div>-->
             <button type="submit" class="btn btn-primary">Modifier</button>
           </form>
     </div>
@@ -36,6 +32,7 @@ export default {
     },
 
    methods: {
+    //BLOC QUI PERMET DE MODIFIER LE PROFIL 
      register () {
         let user_id = localStorage.getItem("user_id")   
         axios.put("http://localhost:3000/users/update/"+user_id,
@@ -47,21 +44,20 @@ export default {
             console.log(err)
         })
          
-     },
-
-        getProfil(){
+     }, //FIN DU BLOC MODIFIER LE PROFIL
+    
+    // LE BLOC QUI PERMET DE CHERCHER LES INFOS SUR LE PROFIL A MODIFIER 
+    getProfil(){
         let user_id = localStorage.getItem("user_id")     
         axios.get("http://localhost:3000/users/Users/"+user_id,
         this.getHeaders(this.token)).then(res => { 
-     
-
+    
             this.data= res.data;
-            // console.log(this.profils[0])
         }).catch(err => {
             console.log(err)
         })
-     }
-     ,
+     }, //FIN DU BLOC
+     
  getHeaders(token) {
 
     const config = {

@@ -40,7 +40,7 @@ export default {
    methods: {
      //CONTROL THE FIELDS
   checkForm: function (e) {
-      if (this.name && this.email && this.password) {
+      if (this.name && this.email && this.password ) {
         return true
       }
 

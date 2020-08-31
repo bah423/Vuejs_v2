@@ -30,7 +30,7 @@ export default {
     }
 
 },
-    mounted(){
+   mounted(){
 
     this.token = localStorage.getItem("token")
         this.getAllPost();
