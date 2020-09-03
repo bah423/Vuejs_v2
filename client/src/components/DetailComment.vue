@@ -4,7 +4,7 @@
         <form v-on:submit.prevent="updateComment">
             <div class="form-group">
               <label for="exampleInputEmail1">modifier le commentaire</label><br>
-              <small >ancien commentaire:{{contenu}} </small> 
+              <!--<small >ancien commentaire:{{contenu}} </small>--> 
               <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"  v-model="contenu">
             </div>
             <button type="submit" class="btn btn-primary">Enregistrer
@@ -31,13 +31,12 @@ export default {
     },
  mounted(){
       this.token = localStorage.getItem("token")
-
       this.comment_id = this.$route.params.id; 
       this.getComments(this.comment_id);
     },
 
    methods: {
-
+       //GET COMMENT FOR UPDATE
        getComments(commentId){
            this.errors = {}
         axios.get("http://localhost:3000/comments/details/"+commentId,this.getHeaders(this.token)).then(res => { 
@@ -48,6 +47,7 @@ export default {
             console.log(err)
         })
     },
+    //BLOC UPDATE COMMENT
       updateComment(id){
         id = this.comment_id
         this.errors = {}
@@ -58,7 +58,7 @@ export default {
         }).catch(err => {
             console.log(err)
         })
-   },
+   }, //END BLOC UPDATE COMMENT
 
   getHeaders(token) {
 

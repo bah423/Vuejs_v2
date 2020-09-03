@@ -7,18 +7,7 @@ const bcrypt = require("bcrypt")
 var db = require('../models/index');
 const authenticate = require("../authenticate");
 users.use(cors())
-/*var transport = nodemailer.createTransport({
-    host: "smtp.mailtrap.io",
-    secure: false,
-    port: 2525,
-    auth: {
-      user: "c593ca4a2647b7",
-      pass: "ff11d87d1b4957"
-    },
-    tls: { rejectUnauthorized: false }
-  });*/
 
-//LIST USERS
 //GET ALL USERS
 users.get("/Users", authenticate.verifyUser,(req, res) => {
     db.user.findAll()

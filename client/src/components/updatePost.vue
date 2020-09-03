@@ -59,7 +59,7 @@ mounted(){
           this.file = this.$refs.file.files[0];
       },
 
-    // LA FONCTION QUI PERMET LA MODIFICATION D'UN POST
+    // THE FUNCTION THAT ALLOWS TO MODIFY A POST
     ModifyPost(){
             
             let user_id = localStorage.getItem("user_id")         
@@ -85,8 +85,9 @@ mounted(){
             console.log(err)
         })
          
-     },
-    //LA FONCTION QUI PERMET DE QUI PERMET DE CHERCHER LE CONTENU DU POST 
+     }, // END THE FUNCTION THAT ALLOWS TO MODIFY A POST
+    
+    //THE FUNCTION THAT FIND THE POST DATA TO MODIFY 
     getPostInfo(){
     
         axios.get("http://localhost:3000/posts/"+this.post_id,this.getHeaders(this.token)).then(res => { 
@@ -96,7 +97,7 @@ mounted(){
         }).catch(err => {
             console.log(err)
         })
-    },
+    }, // END THE FUNCTION THAT FIND THE POST DATA TO MODIFY
       getHeaders(token) {
 
     const config = {

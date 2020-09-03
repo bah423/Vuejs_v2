@@ -1,7 +1,9 @@
 <template>
     <div >
        <nav class="navbar navbar-expand-lg navbar-light bg-light " >
-        <a class="navbar-brand nav-a" href="#" style="background-color:black;color:#EF6D0D; font-weigth:bold;font-size:2em">Groupomania</a>
+        <a class="navbar-brand " href="#" >
+          <img src="../assets/icon-above-font.png" width="110" height="110" alt="" loading="lazy">
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -43,11 +45,12 @@ export default {
     }
   },
   methods: {
+    // FONCTION FOR DISCONNECT
     logOut(){
       localStorage.clear();
       router.push({name:'Login'})
     }
-  },
+  }, //END
 }
 </script>
 <style  scoped>
@@ -55,11 +58,9 @@ li{
   background-color:blue;
   margin-right: 15px;
   font-weight:bold;
-  font-size:1.05em
+  font-size:1.05em;
+  border: solid 1px white
 
 }
-.nav-a{
-height: 50px;
-padding: 2px;
-}
+
 </style>

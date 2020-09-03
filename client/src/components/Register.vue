@@ -38,7 +38,8 @@ export default {
      }
     },
    methods: {
-     //CONTROL THE FIELDS
+
+  //CONTROL THE FIELDS
   checkForm: function (e) {
       if (this.name && this.email && this.password ) {
         return true
@@ -57,8 +58,9 @@ export default {
       }
 
       e.preventDefault();
-    },
+    }, //END
 
+    //CREATE USER
      register () {
         axios.post("http://localhost:3000/users/register", {
           name: this.name,
@@ -73,7 +75,7 @@ export default {
             console.log(err)
         })
          
-     }
+     } //END
      }
 }
 

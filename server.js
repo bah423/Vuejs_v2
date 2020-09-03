@@ -7,7 +7,6 @@ var port = process.env.PORT || 3000
 var path = require("path")
 var db = require(__dirname + '/models/index');
 let authenticate = require("./authenticate")
-// Sync the database models
 db.sequelize.sync({
 //force: true,
   alter: true

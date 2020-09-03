@@ -42,7 +42,7 @@ export default {
         this.token = localStorage.token
 
     },
-      computed: {
+    computed: {
             isFormValid () {
                 let {newPassword,confirmPassword,password } = this.body ;
                return newPassword==confirmPassword && password.length>0
@@ -51,6 +51,7 @@ export default {
         },
 
    methods: {
+     // BLOC FOR UPDATE PASSWORD
      changePassword () {
         let user_id = localStorage.getItem("user_id") 
        
@@ -68,9 +69,10 @@ export default {
             alert("verifier vos donnes")
         })
          
-     },
+     }, //END BLOC FRO UPDATE PASSWORD
 
-        getProfil(){
+    //BLOC FOR GET PROFIL AND CHANGE PASSWORD
+    getProfil(){
         let user_id = localStorage.getItem("user_id")     
         axios.get("http://localhost:3000/users/Users/"+user_id,
         this.getHeaders(this.token)).then(res => { 
@@ -81,8 +83,8 @@ export default {
         }).catch(err => {
             console.log(err)
         })
-     }
-     ,
+     }, //END BLOC FOR CHANGE PASSWORD
+     
  getHeaders(token) {
 
     const config = {

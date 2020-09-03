@@ -109,7 +109,7 @@ posts.delete('/:id', (req, res, next) => {
         })
 })
 
-// getone POST
+// get one POST
 posts.get('/:id', (req, res, next) => {
     
     db.post.findAll({

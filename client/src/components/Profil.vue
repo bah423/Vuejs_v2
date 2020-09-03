@@ -10,7 +10,7 @@
     <router-link class="nav-link" to="/profil/update">Modifier mon profil</router-link>
     <router-link class="nav-link" to="/profil/updatePassword">Voulez-vous modifier votre mot de passe ?</router-link>
 
-    <a type="button" href="javascript:;" v-on:click="DeleteUser(profil.id)" >Supprimer mon compte </a>
+    <a type="button" href="javascript:;" v-on:click="DeleteUser(profil.id)" >Supprimer le compte </a>
   </div>
 </div>
 </template>
@@ -37,8 +37,8 @@ export default {
 
 
     methods: {
-
-        getProfil(){
+    // GET USER PROFIL
+    getProfil(){
        
         let user_id = localStorage.getItem("user_id")     
         axios.get("http://localhost:3000/users/Users/"+user_id,this.getHeaders( this.token)).then(res => { 
@@ -49,11 +49,12 @@ export default {
             console.log(err)
         })
          
-     } ,
+     } , //END GET USER PROFIL
      showPostDelails(id){
         this.$router.push({name: 'postDetails', params: {id: id}})
      },
-     DeleteUser(id) {
+    // DELETE USER
+    DeleteUser(id) {
 
    if(confirm("Do you really want to delete?")){
 
@@ -67,8 +68,9 @@ export default {
                     console.log(error);
                 })
    }
-   },
-
+   }, //END
+        
+    //  THE NUMBER OF POSTS BY USER
         getAllPost(){
         let user_id = localStorage.getItem("user_id")   
         axios.get("http://localhost:3000/posts/ByUser/"+user_id,this.getHeaders(this.token)).then(res => { 
@@ -79,7 +81,7 @@ export default {
             console.log(err)
         })
          
-},
+}, //END
  getHeaders(token) {
 
     const config = {
@@ -101,4 +103,4 @@ export default {
         font-size: 2.5em;
         margin-top: 3%
     }
-</style>>
+</style>

@@ -41,14 +41,14 @@ name: "addPost",
         file: "",
         token: localStorage.token
 
-    })
-,
+    }),
+
  methods: {
       handleFileUpload(){
     this.file = this.$refs.file.files[0];
       },
- 
-        addPost(){
+    // ADD POST
+    addPost(){
             
             let user_id = localStorage.getItem("user_id")         
             let formData = new FormData();

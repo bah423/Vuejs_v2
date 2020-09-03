@@ -36,7 +36,7 @@ export default {
     },
 
    methods: {
-    //LA FONCTION QUI PERMET DE MODIFIER UN COMMENTAIRE
+    //THE FUNCTION THAT ALLOWS YOU TO MODIFY A COMMENT
       updateComment(id, contenu){
 
        let user_id = localStorage.getItem("user_id")  
@@ -44,7 +44,7 @@ export default {
            this.comment.postId = this.post_id
            this.comment.contenu = contenu
            console.log(this.comment)
-    
+           
         axios.put("http://localhost:3000/comments/"+id, 
            this.comment,
            this.getHeaders(this.token)).then(res => { 
@@ -57,7 +57,7 @@ export default {
         }).catch(err => {
             console.log(err)
         })
-   },
+   }, // END THE FUNCTION THAT ALLOWS YOU TO MODIFY A COMMENT
 
   getHeaders(token) {
 

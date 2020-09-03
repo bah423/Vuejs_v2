@@ -39,7 +39,7 @@ export default {
 
 
     methods: {
-
+        // GET ALL POSTS
         getAllPost(){
     
         axios.get("http://localhost:3000/posts/Posts",this.getHeaders(this.token)).then(res => { 
@@ -49,14 +49,15 @@ export default {
             console.log(err)
         })
          
-     } ,
+     } , //END
      showPostDelails(id){
         this.$router.push({name: 'postDetails', params: {id: id}})
      },
      changeDateFormat(date){
             return new Date(date).toLocaleString();
      },
-        deletePost(id) {
+    // DELETE POST
+    deletePost(id) {
 
    if(confirm("Do you really want to delete?")){
 
@@ -69,9 +70,9 @@ export default {
                     console.log(error);
                 })
    }
-   },
+   }, //END DELETE POST
 
-      getHeaders(token) {
+    getHeaders(token) {
 
     const config = {
         headers: {

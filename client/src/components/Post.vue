@@ -73,8 +73,8 @@ export default {
     },
 
     methods: {
-
-        getPostInfo(id){
+    //FONCTION FOR GETTING POST DATA
+    getPostInfo(id){
     
         axios.get("http://localhost:3000/posts/"+id,this.getHeaders(this.token)).then(res => { 
             console.log(res)
@@ -83,7 +83,9 @@ export default {
         }).catch(err => {
             console.log(err)
         })
-    },
+    }, //END FONCTION FOR GETTING POST DATA
+
+       //FONCTION FOR ADD COMMENT
        addComment(){
            this.errors = {}
            let user_id = localStorage.getItem("user_id")  
@@ -105,7 +107,9 @@ export default {
                 this.comment.contenu = ''
             }
         })
-    },
+    },  // END FONCTION FOR ADD COMMENT
+       
+        //FONCTION FOR GET COMMENT
         getComments(postId){
            this.errors = {}
         axios.get("http://localhost:3000/comments/byPost/"+postId,this.getHeaders(this.token)).then(res => { 
@@ -118,10 +122,12 @@ export default {
                 this.comment.contenu = ''
             }
         })
-    },
+    },  // END FONCTION FOR GET COMMENT
      changeDateFormat(date){
             return new Date(date).toLocaleString();
      },
+     
+    //FONCTION FOR DELETE POST
     deletePost(id) {
 
    if(confirm("Do you really want to delete?")){
@@ -136,9 +142,10 @@ export default {
                     console.log(error);
                 })
    }
-   }
-   ,
-      deleteComment(id) {
+   },  //FONCTION FOR DELETE POST
+   
+   //FONCTION FOR DELETE COMMENT
+    deleteComment(id) {
 
    if(confirm("Do you really want to delete?")){
 
@@ -151,8 +158,9 @@ export default {
                     console.log(error);
                 })
    }
-   },
-  
+   }, // END FONCTION FOR DELETE POST
+   
+   //FONCTION FOR UPDATE COMMENT
    updateComment(id, contenu){
 
        let user_id = localStorage.getItem("user_id")  
@@ -169,8 +177,9 @@ export default {
         }).catch(err => {
             console.log(err)
         })
-   },
-
+   }, // END FONCTION FOR UPDATE COMMENT
+   
+   // FUNCTIONS FOR REDIRECTIONS TO: postUpdate, DetailComment
    goToUpdatePost(){
 
          router.push({name:'postUpdate' ,params: {id: this.post_id}})
@@ -178,8 +187,8 @@ export default {
    },
    goToDetail(id_comment){
     router.push({name:'DetailComment' ,params: {id: id_comment}})
-   },
-      getHeaders(token) {
+   }, //END
+   getHeaders(token) {
 
     const config = {
         headers: {

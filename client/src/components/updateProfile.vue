@@ -32,7 +32,7 @@ export default {
     },
 
    methods: {
-    //BLOC QUI PERMET DE MODIFIER LE PROFIL 
+    //BLOC UPDATE THE USER PROFIL 
      register () {
         let user_id = localStorage.getItem("user_id")   
         axios.put("http://localhost:3000/users/update/"+user_id,
@@ -44,9 +44,9 @@ export default {
             console.log(err)
         })
          
-     }, //FIN DU BLOC MODIFIER LE PROFIL
+     }, //END BLOC FOR UPDATE THE USER PROFIL
     
-    // LE BLOC QUI PERMET DE CHERCHER LES INFOS SUR LE PROFIL A MODIFIER 
+    // BLOC TO FIND THE USER PROFIL 
     getProfil(){
         let user_id = localStorage.getItem("user_id")     
         axios.get("http://localhost:3000/users/Users/"+user_id,
@@ -56,7 +56,7 @@ export default {
         }).catch(err => {
             console.log(err)
         })
-     }, //FIN DU BLOC
+     }, //END BLOC
      
  getHeaders(token) {
 
